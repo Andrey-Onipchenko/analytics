@@ -31,6 +31,7 @@ import {
   GridComponent,
   TitleComponent,
 } from "echarts/components";
+import { getGraphData } from "../helpers/getGraphData";
 
 use([
   CanvasRenderer,
@@ -62,25 +63,15 @@ export default {
       this.option.series[0].data = values;
     },
 
-    tvlGraphData() {
-      const totalTvlByTimestamp: any = {};
+    async tvlGraphData() {
+      const { totalLabels, totalValues } = await getGraphData(
+        this.tvlByChains,
+        "totalValueLockedUsd"
+      );
 
-      this.tvlByChains.map(({ snapshots }: any) => {
-        snapshots.map(({ totalValueLockedUsd, timestamp }: any) => {
-          if (!totalTvlByTimestamp[timestamp]) {
-            totalTvlByTimestamp[timestamp] = +totalValueLockedUsd;
-          } else {
-            totalTvlByTimestamp[timestamp] += +totalValueLockedUsd;
-          }
-        });
-      });
-
-      for (const [key, value] of Object.entries(totalTvlByTimestamp)) {
-        this.totalLabels.push(moment.unix(+key).format("DD.MM.YY"));
-        this.totalValues.push(value);
-      }
-
-      this.option = createGraphOption(this.totalLabels, this.totalValues);
+      this.option = createGraphOption(totalLabels, totalValues);
+      this.totalLabels = totalLabels;
+      this.totalValues = totalValues;
     },
 
     getTvlByChain(chainId: number) {
@@ -114,6 +105,8 @@ export default {
       const labelsArr = this.selectedChainId ? this.labels : this.totalLabels;
       const valuesArr = this.selectedChainId ? this.values : this.totalValues;
 
+      console.log("isTotal", isTotal);
+
       const labels = isTotal
         ? labelsArr
         : [...labelsArr].splice(labelsArr.length - period, period);
@@ -121,8 +114,6 @@ export default {
       const values = isTotal
         ? valuesArr
         : [...valuesArr].splice(valuesArr.length - period, period);
-
-      console.log("values", values);
 
       this.updateGraphOption(labels, values);
     },
