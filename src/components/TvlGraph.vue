@@ -70,6 +70,8 @@ export default {
       );
 
       this.option = createGraphOption(totalLabels, totalValues);
+      this.totalLabels = totalLabels;
+      this.totalValues = totalValues;
     },
 
     getTvlByChain(chainId: number) {
@@ -102,6 +104,8 @@ export default {
       const isTotal = period >= 1000;
       const labelsArr = this.selectedChainId ? this.labels : this.totalLabels;
       const valuesArr = this.selectedChainId ? this.values : this.totalValues;
+
+      console.log("isTotal", isTotal);
 
       const labels = isTotal
         ? labelsArr
