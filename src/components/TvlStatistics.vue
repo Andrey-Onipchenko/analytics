@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h3>Total111</h3>
+  <div class="wrapper">
+    <h3>Total</h3>
     <p>{{ totalTvl }}</p>
 
     <button @click="changeMonth(1)">1M</button>
@@ -10,7 +10,11 @@
     <h3>Difference</h3>
     <p>{{ differenceTvl }}</p>
 
-    <div v-for="info in tvlByChains" :key="info.chainId">
+    <div
+      v-for="info in tvlByChainsArr"
+      :key="info.chainId"
+      :style="{ color: info?.totalValueLockedUsd > 0 ? 'green' : 'red' }"
+    >
       {{ info.chainId }} {{ info.totalValueLockedUsd }}
     </div>
   </div>
@@ -42,27 +46,45 @@ export default {
       return this.totalTvl - this.selectedTvl;
     },
 
-    tvlByChains() {
+    tvlByChainsArr() {
+      const total: any = [];
       const result: any = [];
 
       this.tvlByChains.map(({ snapshots, chainId }: any) => {
         snapshots.map(({ totalValueLockedUsd, timestamp }: any) => {
-          if (+timestamp === this.getTimestamp())
+          if (+timestamp === this.getTimestamp()) {
+            total.push({
+              chainId,
+              totalValueLockedUsd,
+            });
+          }
+
+          if (+timestamp === this.getTimestamp(this.monthsCount)) {
             result.push({
               chainId,
               totalValueLockedUsd,
             });
+          }
         });
       });
 
       const defaultChains = [1, 10, 250, 42161, 43114];
       const chains = result.map((item: any) => item.chainId);
+
       defaultChains.map((chainId: any) => {
-        if (!chains.includes(chainId))
+        if (!chains.includes(chainId)) {
           result.push({ chainId, totalValueLockedUsd: 0 });
+          total.push({ chainId, totalValueLockedUsd: 0 });
+        }
       });
 
-      return result;
+      return total.map((item: any, index: number) => {
+        return {
+          chainId: item.chainId,
+          totalValueLockedUsd:
+            item.totalValueLockedUsd - result[index].totalValueLockedUsd,
+        };
+      });
     },
   },
 
@@ -101,3 +123,12 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.wrapper {
+  margin-top: 45px;
+  width: 400px;
+  border: 1px solid #000;
+  padding: 15px;
+}
+</style>

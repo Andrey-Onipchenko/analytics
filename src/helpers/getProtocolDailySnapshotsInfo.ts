@@ -1,9 +1,9 @@
 import axios from "axios";
-import { getGraphUrl } from "../getGraphUrl";
+import { getGraphUrl } from "./getGraphUrl";
+import { DEFAULT_CHAINS } from "../constants";
 
-const defaultChains = [1, 10, 250, 42161, 43114];
-
-export const getTvlDailySnapshots = async (
+export const getProtocolDailySnapshotsInfo = async (
+  queryArr: string[],
   first = 1000,
   skip = 0,
   count = 0,
@@ -12,18 +12,16 @@ export const getTvlDailySnapshots = async (
   const query = `query MyQuery {
         protocols {
           dailySnapshots(first: ${first}, skip: ${skip}) {
-            timestamp
-            totalValueLockedUsd
+            ${queryArr.join(" ")}
           }
         }
       }`;
 
   data.push(
     await Promise.all(
-      defaultChains.map(async (chainId: number) => {
+      DEFAULT_CHAINS.map(async (chainId: number) => {
         const url = getGraphUrl(chainId);
         const { data } = await axios.post(url, { query: query });
-
         return {
           chainId,
           snapshots: data.data.protocols[0].dailySnapshots || [],
@@ -38,7 +36,13 @@ export const getTvlDailySnapshots = async (
 
   if (isNextRequest) {
     count++;
-    return await getTvlDailySnapshots(first, first * count, count, data);
+    return await getProtocolDailySnapshotsInfo(
+      queryArr,
+      first,
+      first * count,
+      count,
+      data
+    );
   } else {
     return await data.reduce((accumulator: any, currentItem: any) => {
       return accumulator.map((item: any, index: number) => {

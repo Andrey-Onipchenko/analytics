@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import { getTvlDailySnapshots } from "../helpers/tvl/getTvlDailySnapshots";
+import { getProtocolDailySnapshotsInfo } from "../helpers/getProtocolDailySnapshotsInfo";
 import TvlGraph from "../components/TvlGraph.vue";
 import TvlStatistics from "../components/TvlStatistics.vue";
 
@@ -18,7 +18,8 @@ export default {
   },
 
   async created() {
-    this.tvlByChains = await getTvlDailySnapshots();
+    const params = ["timestamp", "totalValueLockedUsd"];
+    this.tvlByChains = await getProtocolDailySnapshotsInfo(params);
   },
 
   components: {
