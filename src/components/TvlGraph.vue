@@ -12,8 +12,7 @@
       <button @click="tvlByPeriod(30)">1M</button>
       <button @click="tvlByPeriod(90)">3M</button>
       <button @click="tvlByPeriod(180)">6M</button>
-      <button @click="tvlByPeriod(365)">1Y</button>
-      <button @click="tvlByPeriod(1000)">all</button>
+      <button @click="tvlByPeriod(1000)">1Y</button>
     </div>
     <v-chart class="chart" :option="option" />
   </div>
@@ -86,7 +85,7 @@ export default {
 
           this.tvlByChains.map((item: any) => {
             if (item.chainId === chainId) {
-              item.snapshots.forEach((element: any) => {
+              [...item.snapshots].reverse().forEach((element: any) => {
                 this.labels.push(
                   moment.unix(element.timestamp).format("DD.MM.YY")
                 );
@@ -104,8 +103,6 @@ export default {
       const isTotal = period >= 1000;
       const labelsArr = this.selectedChainId ? this.labels : this.totalLabels;
       const valuesArr = this.selectedChainId ? this.values : this.totalValues;
-
-      console.log("isTotal", isTotal);
 
       const labels = isTotal
         ? labelsArr

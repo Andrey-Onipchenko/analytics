@@ -21,6 +21,8 @@
 </template>
 
 <script lang="ts">
+import { getTotalDailySnapshotsByTimestamp } from "../helpers/getTotalDailySnapshotsByTimestamp";
+
 export default {
   props: {
     tvlByChains: {},
@@ -89,18 +91,6 @@ export default {
   },
 
   methods: {
-    getTotalTvlsByTimestamp() {
-      this.tvlByChains.map(({ snapshots }: any) => {
-        snapshots.map(({ totalValueLockedUsd, timestamp }: any) => {
-          if (!this.totalTvlsByTimestamp[timestamp]) {
-            this.totalTvlsByTimestamp[timestamp] = +totalValueLockedUsd;
-          } else {
-            this.totalTvlsByTimestamp[timestamp] += +totalValueLockedUsd;
-          }
-        });
-      });
-    },
-
     getTimestamp(difference = 0) {
       const date = new Date();
       const today = date.getDate();
@@ -119,7 +109,10 @@ export default {
   },
 
   created() {
-    this.getTotalTvlsByTimestamp();
+    this.totalTvlsByTimestamp = getTotalDailySnapshotsByTimestamp(
+      this.tvlByChains,
+      "totalValueLockedUsd"
+    );
   },
 };
 </script>

@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import TvlBlock from "../components/TvlBlock.vue";
 import MimHealthBlock from "../components/MimHealthBlock.vue";
 import CauldronsInfoBlock from "../components/CauldronsInfoBlock.vue";
