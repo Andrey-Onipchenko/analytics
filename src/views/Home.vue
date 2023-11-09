@@ -2,15 +2,17 @@
   <div class="home">
     <h1>Analytics</h1>
     <TvlBlock />
-    <TotalByCategory />
+    <ByCategory />
+    <ByChain />
   </div>
 </template>
 
 <script>
 import TvlBlock from "../components/TvlBlock.vue";
-import TotalByCategory from "@/components/fees/cauldronsFee/TotalByCategory.vue"
+import ByCategory from "@/components/fees/ByCategory.vue";
+import ByChain from "@/components/fees/ByChain.vue";
 
 export default {
-  components: { TvlBlock, TotalByCategory },
+  components: { TvlBlock, ByCategory, ByChain },
 };
 </script>
