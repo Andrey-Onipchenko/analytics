@@ -5,28 +5,28 @@
       Analytics platform for tracking the liquidity, volume, and fees generated
       by Abracadabra products.
     </h3>
-    <TvlBlock />
-    <!-- <ByCategory />
-    <ByChain />
+    <TvlStatistics />
+    <CauldronsFees />
+    <CauldronsFeeByChain />
     <MimHealthBlock />
-    <CauldronsInfoBlock /> -->
+    <!-- <CauldronsInfoBlock /> -->
   </div>
 </template>
 
 <script lang="ts">
-import TvlBlock from "../components/tvlBlock/TvlBlock.vue";
+import TvlStatistics from "../components/tvl/TvlStatistics.vue";
+import CauldronsFees from "../components/fees/CauldronsFees.vue";
+import CauldronsFeeByChain from "../components/fees/CauldronsFeeByChain.vue";
 import MimHealthBlock from "../components/MimHealthBlock.vue";
-import CauldronsInfoBlock from "../components/CauldronsInfoBlock.vue";
-import ByCategory from "../components/fees/ByCategory.vue";
-import ByChain from "../components/fees/ByChain.vue";
+// import CauldronsInfoBlock from "../components/CauldronsInfoBlock.vue";
 
 export default {
   components: {
-    TvlBlock,
+    TvlStatistics,
+    CauldronsFees,
+    CauldronsFeeByChain,
     MimHealthBlock,
-    CauldronsInfoBlock,
-    ByCategory,
-    ByChain,
+    // CauldronsInfoBlock,
   },
 };
 </script>

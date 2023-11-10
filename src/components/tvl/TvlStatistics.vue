@@ -1,14 +1,14 @@
 <template>
   <div class="wraper">
     <TvlGraph :tvlByChains="tvlByChains" v-if="tvlByChains" />
-    <TvlStatistics :tvlByChains="tvlByChains" v-if="tvlByChains" />
+    <TvlByChain :tvlByChains="tvlByChains" v-if="tvlByChains" />
   </div>
 </template>
 
 <script lang="ts">
-import { getProtocolDailySnapshotsInfo } from "../../helpers/getProtocolDailySnapshotsInfo";
 import TvlGraph from "./TvlGraph.vue";
-import TvlStatistics from "./TvlStatistics.vue";
+import TvlByChain from "./TvlByChain.vue";
+import { getProtocolDailySnapshotsInfo } from "../../helpers/getProtocolDailySnapshotsInfo";
 
 export default {
   data() {
@@ -24,7 +24,7 @@ export default {
 
   components: {
     TvlGraph,
-    TvlStatistics,
+    TvlByChain,
   },
 };
 </script>

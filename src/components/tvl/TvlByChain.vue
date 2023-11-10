@@ -27,7 +27,7 @@
 <script lang="ts">
 import { defineAsyncComponent } from "vue";
 import { CHART_MONTH } from "../../constants";
-import { getTotalDailySnapshotsByTimestamp } from "../../helpers/getTotalDailySnapshotsByTimestamp";
+import { getSnapshotsByTimestamp } from "../../helpers/getSnapshotsByTimestamp";
 import { getDifferenceByTimestamp } from "../../helpers/getDifferenceByTimestamp";
 import { getTimestamp } from "../../helpers/getTimestamp";
 
@@ -46,11 +46,12 @@ export default {
 
   computed: {
     totalTvl() {
-      return this.totalTvlsByTimestamp[getTimestamp()];
+      return this.totalTvlsByTimestamp[getTimestamp()].totalValueLockedUsd;
     },
 
     selectedTvl() {
-      return this.totalTvlsByTimestamp[getTimestamp(this.monthsCount)];
+      return this.totalTvlsByTimestamp[getTimestamp(this.monthsCount)]
+        .totalValueLockedUsd;
     },
 
     differenceTvl() {
@@ -69,10 +70,9 @@ export default {
   },
 
   created() {
-    this.totalTvlsByTimestamp = getTotalDailySnapshotsByTimestamp(
-      this.tvlByChains,
-      "totalValueLockedUsd"
-    );
+    this.totalTvlsByTimestamp = getSnapshotsByTimestamp(this.tvlByChains, [
+      "totalValueLockedUsd",
+    ]);
   },
 
   components: {

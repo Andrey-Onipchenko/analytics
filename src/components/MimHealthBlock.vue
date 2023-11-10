@@ -7,7 +7,8 @@
         <p>$ {{ totalMimBorrowed }}</p>
       </div>
       <div class="graph">
-        <v-chart class="chart" :option="option" />
+        <!-- <v-chart class="chart" :option="option" /> -->
+        <PercentageGaugeChart />
       </div>
       <div class="block">
         <h3>Total Collateral deposit</h3>
@@ -18,15 +19,10 @@
 </template>
 
 <script lang="ts">
-import { use } from "echarts/core";
-import { GaugeChart } from "echarts/charts";
-import { CanvasRenderer } from "echarts/renderers";
-import VChart, { THEME_KEY } from "vue-echarts";
 import { getProtocolsInfo } from "../helpers/getProtocolsInfo";
 import { createGaugeOption } from "../helpers/graph/createGaugeOption";
 import { getProtocolsTotals } from "../helpers/getProtocolsTotals";
-
-use([GaugeChart, CanvasRenderer]);
+import PercentageGaugeChart from "../components/charts/PercentageGaugeChart.vue";
 
 export default {
   data(): any {
@@ -53,13 +49,8 @@ export default {
     this.totalValueLockedUsd = totalValueLockedUsd;
   },
 
-  provide: {
-    // @ts-ignore
-    [THEME_KEY]: "dark",
-  },
-
   components: {
-    VChart,
+    PercentageGaugeChart,
   },
 };
 </script>
@@ -70,7 +61,7 @@ export default {
 }
 
 .wrapper {
-  margin-top: 70px;
+  // margin-top: 70px;
   border: 1px solid #000;
 }
 

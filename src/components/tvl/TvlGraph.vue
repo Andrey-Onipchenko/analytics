@@ -97,7 +97,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .wrap {
   width: 100%;
   height: 600px;
