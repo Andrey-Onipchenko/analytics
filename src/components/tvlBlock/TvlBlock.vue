@@ -6,9 +6,9 @@
 </template>
 
 <script lang="ts">
-import { getProtocolDailySnapshotsInfo } from "../helpers/getProtocolDailySnapshotsInfo";
-import TvlGraph from "../components/TvlGraph.vue";
-import TvlStatistics from "../components/TvlStatistics.vue";
+import { getProtocolDailySnapshotsInfo } from "../../helpers/getProtocolDailySnapshotsInfo";
+import TvlGraph from "./TvlGraph.vue";
+import TvlStatistics from "./TvlStatistics.vue";
 
 export default {
   data() {

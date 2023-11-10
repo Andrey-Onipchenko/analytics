@@ -1,4 +1,4 @@
-export const createGraphOption = (labes: any, values: any) => {
+export const createBasicAreaChartOption = (labes: any, values: any) => {
   return {
     title: {
       textStyle: {
